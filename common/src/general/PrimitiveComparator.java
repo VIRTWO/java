@@ -15,30 +15,30 @@ public class PrimitiveComparator {
 		public int FIELD_COUNT_DIFFERENCE = 0;
 		public List<Field> LEFT_EXTRA_FIELDS = new ArrayList<Field>();
 		public List<Field> RIGHT_EXTRA_FIELDS = new ArrayList<Field>();
-		public Map<String, String> UNEQUAL_VALUES = new HashMap<String, String>();
-		public List<String> SKIPPED = new ArrayList<String>();
+		public Map<Field, String> UNEQUAL_VALUES = new HashMap<Field, String>();
+		public List<Field> SKIPPED = new ArrayList<Field>();
 
 		public void print() {
 			System.out.println("Extra fields in left object:");
 			for (Field f : LEFT_EXTRA_FIELDS) {
-				System.out.println(f.getType() + " - " + f.getName());
+				System.out.println(f);
 			}
 			System.out.println();
 
 			System.out.println("Extra fields in right object:");
 			for (Field f : RIGHT_EXTRA_FIELDS) {
-				System.out.println(f.getType() + " - " + f.getName());
+				System.out.println(f);
 			}
 			System.out.println();
 
 			System.out.println("Fields with unequal values:");
-			for (Map.Entry<String, String> e : UNEQUAL_VALUES.entrySet()) {
+			for (Map.Entry<Field, String> e : UNEQUAL_VALUES.entrySet()) {
 				System.out.println(e.getKey() + " - " + e.getValue());
 			}
 			System.out.println();
 
 			System.out.println("Fields skipped while matching values:");
-			for (String s : SKIPPED) {
+			for (Field s : SKIPPED) {
 				System.out.println(s);
 			}
 			System.out.println();
@@ -108,7 +108,8 @@ public class PrimitiveComparator {
 					// if they are supported, else we will add them to skip list
 					if (isSupportedFieldType(e.getValue().getType()) == false) {
 						// not supported type
-						result.SKIPPED.add(e.getValue().getName());
+						result.SKIPPED.add(fNameMapLeft.get(e.getKey()));
+						result.SKIPPED.add(e.getValue());
 						continue;
 					}
 					// implement the toString in class to support other types or
@@ -119,12 +120,8 @@ public class PrimitiveComparator {
 							.get(objLeft).toString();
 					if (leftValue.equals(rightValue) == false) {
 						// values are not same
-						result.UNEQUAL_VALUES.put(objLeft.getClass()
-								.getCanonicalName() + " : " + e.getKey(),
-								leftValue);
-						result.UNEQUAL_VALUES.put(objRight.getClass()
-								.getCanonicalName() + " : " + e.getKey(),
-								rightValue);
+						result.UNEQUAL_VALUES.put(fNameMapLeft.get(e.getKey()),	rightValue);
+						result.UNEQUAL_VALUES.put(e.getValue(), rightValue);
 					}
 					continue;
 				}
