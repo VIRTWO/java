@@ -1,4 +1,4 @@
-package general;
+package io;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
