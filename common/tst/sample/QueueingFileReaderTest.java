@@ -8,44 +8,44 @@ import java.io.IOException;
 
 public class QueueingFileReaderTest {
 
-	public static class Consumer implements Runnable {
+    public static class Consumer implements Runnable {
 
-		private final QueueingFileReader queueingFileReader;
+        private final QueueingFileReader queueingFileReader;
 
-		public Consumer(QueueingFileReader queueingFileReader) {
-			this.queueingFileReader = queueingFileReader;
-		}
+        public Consumer(QueueingFileReader queueingFileReader) {
+            this.queueingFileReader = queueingFileReader;
+        }
 
-		@Override
-		public void run() {
-			try {
-				DataBlock data = null;
-				long i = 0;
-				while ((data = queueingFileReader.getDataBlock()) != DataBlock.END) {
-					if (((++i) % 100000) == 0) {
-						System.out.println(i + ": " + Thread.currentThread().getName());
-						System.out.println(new String(data.getBytes()));
-					}
-				}
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			System.out.println("Consumer " + Thread.currentThread().getName() + " is done.");
-		}
+        @Override
+        public void run() {
+            try {
+                DataBlock data = null;
+                long i = 0;
+                while ((data = queueingFileReader.getDataBlock()) != DataBlock.END) {
+                    if (((++i) % 100000) == 0) {
+                        System.out.println(i + ": " + Thread.currentThread().getName());
+                        System.out.println(new String(data.getBytes()));
+                    }
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println("Consumer " + Thread.currentThread().getName() + " is done.");
+        }
 
-	}
+    }
 
-	public static void main(String[] args) throws IOException {
-		
-		QueueingFileReader qfr = new QueueingFileReader(new File("/tmp/tmp.file"), '\n');
-		qfr.start();
+    public static void main(String[] args) throws IOException {
 
-		for (int i = 0; i < 2; i++) {
-			Thread a = new Thread(new Consumer(qfr), "a" + i);
-			a.start();
-		}
+        QueueingFileReader qfr = new QueueingFileReader(new File("/tmp/tmp.file"), '\n');
+        qfr.start();
 
-		System.out.println("Done!");
-	}
+        for (int i = 0; i < 2; i++) {
+            Thread a = new Thread(new Consumer(qfr), "a" + i);
+            a.start();
+        }
+
+        System.out.println("Done!");
+    }
 
 }

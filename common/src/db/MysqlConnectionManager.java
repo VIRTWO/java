@@ -6,39 +6,38 @@ import java.sql.DriverManager;
 
 public class MysqlConnectionManager extends ConnectionManager {
 
-	// hostURL => hostname.com/PPR
-	public MysqlConnectionManager(String hostURL, String user, String passowrd,
-			int poolSize) {
-		super(hostURL, user, passowrd, poolSize);
-	}
+    // hostURL => hostname.com/PPR
+    public MysqlConnectionManager(String hostURL, String user, String passowrd,
+            int poolSize) {
+        super(hostURL, user, passowrd, poolSize);
+    }
 
-	public Connection getConnection() {
+    public Connection getConnection() {
 
-		int connectionIndex = getConnectionIndex();
-		Connection connection = connectionPool[connectionIndex];
+        int connectionIndex = getConnectionIndex();
+        Connection connection = connectionPool[connectionIndex];
 
-		try {
-			// return old connection
-			if (connection != null && connection.isClosed() == false)
-				return connection;
+        try {
+            // return old connection
+            if (connection != null && connection.isClosed() == false) return connection;
 
-			Class.forName("com.mysql.jdbc.Driver");
-			String url = "jdbc:mysql://" + this.host + "?user=" + this.user
-					+ "&password=" + this.passowrd;
-			connection = DriverManager.getConnection(url);
+            Class.forName("com.mysql.jdbc.Driver");
+            String url = "jdbc:mysql://" + this.host + "?user=" + this.user
+                    + "&password=" + this.passowrd;
+            connection = DriverManager.getConnection(url);
 
-		} catch (ClassNotFoundException cnfe) {
-			logger.error("MySQL driver not found: " + cnfe.getMessage());
-			connection = null;
-		} catch (SQLException se) {
-			logger.error("Failed to open connection: " + se.getMessage());
-			connection = null;
-		}
+        } catch (ClassNotFoundException cnfe) {
+            logger.error("MySQL driver not found: " + cnfe.getMessage());
+            connection = null;
+        } catch (SQLException se) {
+            logger.error("Failed to open connection: " + se.getMessage());
+            connection = null;
+        }
 
-		// we are here means a new connection
-		connectionPool[connectionIndex] = connection;
+        // we are here means a new connection
+        connectionPool[connectionIndex] = connection;
 
-		return connection;
-	}
+        return connection;
+    }
 
 }

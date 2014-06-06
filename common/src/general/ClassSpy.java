@@ -8,66 +8,66 @@ import java.util.List;
 
 public class ClassSpy {
 
-	private Class<?> c;
+    private Class<?> c;
 
-	public ClassSpy(Class<?> c) {
-		this.c = c;
-	}
+    public ClassSpy(Class<?> c) {
+        this.c = c;
+    }
 
-	public List<Field> getFields() {
-		List<Field> fList = new ArrayList<Field>();
+    public List<Field> getFields() {
+        List<Field> fList = new ArrayList<Field>();
 
-		// does not get the private members
-		Field[] dummy = c.getFields();
-		for (Field f : dummy) {
-			fList.add(f);
-		}
+        // does not get the private members
+        Field[] dummy = c.getFields();
+        for (Field f : dummy) {
+            fList.add(f);
+        }
 
-		// get the private members
-		dummy = c.getDeclaredFields();
-		for (Field f : dummy) {
-			if (fList.contains(f) == false) {
-				fList.add(f);
-			}
-		}
+        // get the private members
+        dummy = c.getDeclaredFields();
+        for (Field f : dummy) {
+            if (fList.contains(f) == false) {
+                fList.add(f);
+            }
+        }
 
-		return fList;
-	}
+        return fList;
+    }
 
-	public List<Method> getMethods() {
-		List<Method> mList = new ArrayList<Method>();
+    public List<Method> getMethods() {
+        List<Method> mList = new ArrayList<Method>();
 
-		// does not get the private members
-		Method[] dummy = c.getMethods();
-		for (Method m : dummy) {
-			mList.add(m);
-		}
+        // does not get the private members
+        Method[] dummy = c.getMethods();
+        for (Method m : dummy) {
+            mList.add(m);
+        }
 
-		// get the private members
-		dummy = c.getDeclaredMethods();
-		for (Method m : dummy) {
-			if (mList.contains(m) == false) {
-				mList.add(m);
-			}
-		}
+        // get the private members
+        dummy = c.getDeclaredMethods();
+        for (Method m : dummy) {
+            if (mList.contains(m) == false) {
+                mList.add(m);
+            }
+        }
 
-		return mList;
-	}
+        return mList;
+    }
 
-	public List<Constructor<?>> getConstructors() {
-		List<Constructor<?>> cList = new ArrayList<Constructor<?>>();
+    public List<Constructor<?>> getConstructors() {
+        List<Constructor<?>> cList = new ArrayList<Constructor<?>>();
 
-		// gets all
-		Constructor<?>[] dummy = c.getDeclaredConstructors();
-		for (Constructor<?> c : dummy) {
-			cList.add(c);
-		}
+        // gets all
+        Constructor<?>[] dummy = c.getDeclaredConstructors();
+        for (Constructor<?> c : dummy) {
+            cList.add(c);
+        }
 
-		return cList;
-	}
+        return cList;
+    }
 
-	public Package getPackage() {
-		return c.getPackage();
-	}
+    public Package getPackage() {
+        return c.getPackage();
+    }
 
 }
