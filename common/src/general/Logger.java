@@ -12,4 +12,6 @@ public interface Logger {
 
     public abstract void debug(String message);
 
+    public abstract void flush();
+    
 }

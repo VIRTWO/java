@@ -11,17 +11,20 @@ public abstract class ConnectionManager {
     protected static Logger logger = new ConsoleLogger(
             ConnectionManager.class, 100);
 
-    protected String host = null, user = null, passowrd = null;
-    private int maxParallelConnection = 5;
-    protected Connection[] connectionPool = new Connection[maxParallelConnection];
+    protected String host = null, user = null, password = null;
+    private final int maxParallelConnection;
+    protected Connection[] connectionPool = null;
     private int connectionRoundRobinIndex = 0;
 
-    public ConnectionManager(String host, String user, String passowrd,
-            int poolSize) {
+    public ConnectionManager(String host, String user, String password,
+            int poolSize, int maxParallelConnection) {
         this.host = host;
         this.user = user;
-        this.passowrd = passowrd;
+        this.password = password;
+        this.maxParallelConnection = maxParallelConnection;
 
+        connectionPool = new Connection[maxParallelConnection];
+        
         if (poolSize <= maxParallelConnection) maxParallelConnection = poolSize;
         else throw new RuntimeException("At max " + maxParallelConnection
                 + " connections are allowed in pool.");
@@ -29,6 +32,11 @@ public abstract class ConnectionManager {
         for (int i = 0; i < maxParallelConnection; i++) {
             connectionPool[i] = null;
         }
+    }
+    
+    public ConnectionManager(String host, String user, String password,
+            int poolSize) {
+        this(host, user, password, poolSize, 1);
     }
 
     protected int getConnectionIndex() {

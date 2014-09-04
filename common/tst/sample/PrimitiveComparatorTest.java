@@ -34,6 +34,6 @@ public class PrimitiveComparatorTest {
 
     public static void main(String[] args) throws Exception {
         PrimitiveComparator pc = new PrimitiveComparator();
-        pc.compareFieldValues(new A(), new B()).print();
+        pc.compareFieldValues(new A(), new B()).print(System.out);
     }
 }

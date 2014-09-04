@@ -1,5 +1,6 @@
 package general;
 
+import java.io.PrintStream;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,30 +19,30 @@ public class PrimitiveComparator {
         public Map<Field, String> UNEQUAL_VALUES = new HashMap<Field, String>();
         public List<Field> SKIPPED = new ArrayList<Field>();
 
-        public void print() {
-            System.out.println("Extra fields in left object:");
+        public void print(PrintStream printStream) {
+            printStream.println("Extra fields in left object:");
             for (Field f : LEFT_EXTRA_FIELDS) {
-                System.out.println(f);
+                printStream.println(f);
             }
-            System.out.println();
+            printStream.println();
 
-            System.out.println("Extra fields in right object:");
+            printStream.println("Extra fields in right object:");
             for (Field f : RIGHT_EXTRA_FIELDS) {
-                System.out.println(f);
+                printStream.println(f);
             }
-            System.out.println();
+            printStream.println();
 
-            System.out.println("Fields with unequal values:");
+            printStream.println("Fields with unequal values:");
             for (Map.Entry<Field, String> e : UNEQUAL_VALUES.entrySet()) {
-                System.out.println(e.getKey() + " - " + e.getValue());
+                printStream.println(e.getKey() + " - " + e.getValue());
             }
-            System.out.println();
+            printStream.println();
 
-            System.out.println("Fields skipped while matching values:");
+            printStream.println("Fields skipped while matching values:");
             for (Field s : SKIPPED) {
-                System.out.println(s);
+                printStream.println(s);
             }
-            System.out.println();
+            printStream.println();
         }
     }
 

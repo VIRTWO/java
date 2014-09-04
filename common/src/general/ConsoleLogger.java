@@ -11,6 +11,11 @@ public class ConsoleLogger implements Logger {
     public static void disableDebug() {
         debug = false;
     }
+    
+    public void flush() {
+        System.out.println(logCash.toString());
+        logCash.delete(0, logCash.length());
+    }
 
     private static StringBuffer logCash = new StringBuffer(10000);
 
@@ -18,8 +23,7 @@ public class ConsoleLogger implements Logger {
         logCash.append(message + "\n");
         writeCount++;
         if (writeCount == flushInterval) {
-            System.out.println(logCash.toString());
-            logCash.delete(0, logCash.length());
+            flush();
             writeCount = 0;
         }
     }

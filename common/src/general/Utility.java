@@ -1,6 +1,7 @@
 package general;
 
 import java.io.File;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -22,11 +23,11 @@ public class Utility {
         return fileList;
     }
 
-    public static void printMap(Map<String, String> map, boolean skipNull) {
+    public static void printMap(Map<String, String> map, boolean skipNull, PrintStream printStream) {
         for (Entry<String, String> e : map.entrySet()) {
             String k = e.getKey(), v = e.getValue();
             if (skipNull == false && v == null) continue;
-            System.out.println(k + " - " + v);
+            printStream.println(k + " - " + v);
         }
     }
 

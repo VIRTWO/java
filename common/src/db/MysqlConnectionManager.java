@@ -9,7 +9,12 @@ public class MysqlConnectionManager extends ConnectionManager {
     // hostURL => hostname.com/PPR
     public MysqlConnectionManager(String hostURL, String user, String passowrd,
             int poolSize) {
-        super(hostURL, user, passowrd, poolSize);
+        this(hostURL, user, passowrd, poolSize, 1);
+    }
+    
+    public MysqlConnectionManager(String hostURL, String user, String passowrd,
+            int poolSize, int maxParallelConnection) {
+        super(hostURL, user, passowrd, poolSize, maxParallelConnection);
     }
 
     public Connection getConnection() {
@@ -23,7 +28,7 @@ public class MysqlConnectionManager extends ConnectionManager {
 
             Class.forName("com.mysql.jdbc.Driver");
             String url = "jdbc:mysql://" + this.host + "?user=" + this.user
-                    + "&password=" + this.passowrd;
+                    + "&password=" + this.password;
             connection = DriverManager.getConnection(url);
 
         } catch (ClassNotFoundException cnfe) {
