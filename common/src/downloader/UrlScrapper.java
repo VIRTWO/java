@@ -6,11 +6,9 @@ import general.Logger;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Queue;
 import java.util.Set;
 import java.util.TreeSet;
@@ -37,6 +35,7 @@ public class UrlScrapper {
         while (!linksToBeProcessed.isEmpty()) {
             // we have links to be processed
             String url = linksToBeProcessed.remove();
+            logger.debug("processing: " + url);
             if (linksSeenAlready.contains(url)) {
                 continue;
             }
@@ -46,8 +45,9 @@ public class UrlScrapper {
                 Document document = response.parse();
                 Elements elements = document.select("a[href]");
                 for (Element element : elements) {
-                    String scrappedUrl = element.attr("abs:href").trim();
+                    String scrappedUrl = cleanUrl(element.attr("abs:href").trim());
                     if (!linksToBeProcessed.contains(scrappedUrl) // not queued already
+                            && !links.contains(scrappedUrl) //
                             && !linksSeenAlready.contains(scrappedUrl) // already seen
                             && hasValidDepth(scrappedUrl, baseDepth, maximumBackwardDepth, maximumForwardDepth) // has a
                                                                                                                 // valid
@@ -55,11 +55,14 @@ public class UrlScrapper {
                             && scrappedUrl.length() != 0 // has some length
                     ) {
                         // queue for processing
-                        System.out.println("Process [" + url + "] " + scrappedUrl);
+                        logger.debug("Process [" + url + "] " + scrappedUrl);
                         linksToBeProcessed.add(scrappedUrl);
                     }
                     // whatever link we go, we will have it
-                    links.add("[" + url + "] " + scrappedUrl);
+                    if(scrappedUrl.length() > 0) {
+                        links.add(scrappedUrl);
+                    }
+                    //links.add("[" + url + "] " + scrappedUrl);
                     // once a link is seen, we never process it again
                 }
             } catch (IOException e) {
@@ -69,6 +72,14 @@ public class UrlScrapper {
         }
 
         return links;
+    }
+    
+    private String cleanUrl(String url) {
+        if(url == null || url.trim().length() < 1) {
+            return "";
+        }
+        String[] tkn = url.split("#");
+        return tkn[0];
     }
 
     private boolean hasValidDepth(String url, int baseDepth, int maximumBackwardDepth, int maximumForwardDepth) {
@@ -89,7 +100,6 @@ public class UrlScrapper {
             return true;
         }
 
-        logger.info("Skipping [depth]: " + url);
         return false;
     }
 
@@ -114,17 +124,6 @@ public class UrlScrapper {
         } catch (MalformedURLException e) {
             return Integer.MAX_VALUE;
         }
-    }
-
-    public static void main(String[] args) {
-        UrlScrapper scrapper = new UrlScrapper();
-
-        List<String> links =
-                new ArrayList<String>(scrapper.scrapeHyperlinks("http://www.hindicomicsonline.com/super-indian/", 0, 1));
-        for (int i = 1; i <= links.size(); i++) {
-            System.out.println(i + ") " + links.get(i - 1));
-        }
-
     }
 
 }
