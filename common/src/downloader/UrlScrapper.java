@@ -55,11 +55,8 @@ public class UrlScrapper {
                             && scrappedUrl.length() != 0 // has some length
                     ) {
                         // queue for processing
-                        if (scrappedUrl.contains("chemical-locha")) {
-                            System.out.println("Process [" + url + "] " + scrappedUrl);
-                            linksToBeProcessed.add(scrappedUrl);
-                        }
-
+                        System.out.println("Process [" + url + "] " + scrappedUrl);
+                        linksToBeProcessed.add(scrappedUrl);
                     }
                     // whatever link we go, we will have it
                     links.add("[" + url + "] " + scrappedUrl);
@@ -123,7 +120,7 @@ public class UrlScrapper {
         UrlScrapper scrapper = new UrlScrapper();
 
         List<String> links =
-                new ArrayList<String>(scrapper.scrapeHyperlinks("http://www.hindicomicsonline.com/super-indian/", 0, 2));
+                new ArrayList<String>(scrapper.scrapeHyperlinks("http://www.hindicomicsonline.com/super-indian/", 0, 1));
         for (int i = 1; i <= links.size(); i++) {
             System.out.println(i + ") " + links.get(i - 1));
         }
