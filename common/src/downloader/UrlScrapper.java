@@ -59,10 +59,10 @@ public class UrlScrapper {
                         linksToBeProcessed.add(scrappedUrl);
                     }
                     // whatever link we go, we will have it
-                    if(scrappedUrl.length() > 0) {
+                    if (scrappedUrl.length() > 0) {
                         links.add(scrappedUrl);
                     }
-                    //links.add("[" + url + "] " + scrappedUrl);
+                    // links.add("[" + url + "] " + scrappedUrl);
                     // once a link is seen, we never process it again
                 }
             } catch (IOException e) {
@@ -73,9 +73,9 @@ public class UrlScrapper {
 
         return links;
     }
-    
+
     private String cleanUrl(String url) {
-        if(url == null || url.trim().length() < 1) {
+        if (url == null || url.trim().length() < 1) {
             return "";
         }
         String[] tkn = url.split("#");
