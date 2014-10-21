@@ -1,5 +1,7 @@
 package parser;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Pattern;
 
 public class StringTokenator {
@@ -63,8 +65,22 @@ public class StringTokenator {
     }
 
     public String[] tokenate() {
+        return tokenate(false);
+    }
+
+    public String[] tokenate(boolean includeEmptyToken) {
         Pattern pattern = Pattern.compile(String.valueOf(deliminator));
-        return pattern.split(string, -1);
+        String[] tkn = pattern.split(string, -1);
+        if (includeEmptyToken) {
+            return tkn;
+        }
+        List<String> nonEmptyTkn = new ArrayList<String>();
+        for (String t : tkn) {
+            if (t.trim().length() != 0) {
+                nonEmptyTkn.add(t.trim());
+            }
+        }
+        return nonEmptyTkn.toArray(new String[] {});
     }
 
 }

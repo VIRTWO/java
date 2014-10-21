@@ -23,11 +23,18 @@ public class Utility {
         return fileList;
     }
 
-    public static void printMap(Map<String, String> map, boolean skipNull, PrintStream printStream) {
-        for (Entry<String, String> e : map.entrySet()) {
-            String k = e.getKey(), v = e.getValue();
+    public static <K, V> void printMap(Map<K, V> map, boolean skipNull, PrintStream printStream) {
+        for (Entry<K, V> e : map.entrySet()) {
+            K k = e.getKey();
+            V v = e.getValue();
             if (skipNull == false && v == null) continue;
-            printStream.println(k + " - " + v);
+            printStream.println(k.toString() + " - " + v.toString());
+        }
+    }
+    
+    public static <T> void printList(List<T> list, PrintStream printStream) {
+        for (T t : list) {
+            printStream.println(t.toString());
         }
     }
 
