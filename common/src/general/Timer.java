@@ -1,32 +1,44 @@
 package general;
 
-import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 public class Timer {
 
-    private long startEpoch = 0, endEpoch = 0, runTime = 0;
-    boolean running = false;
+    public static final TimeUnit TIME_UNIT = TimeUnit.NANOSECONDS;
+    private long start = 0;
+    private long end = 0;
 
-    public void start() {
-        startEpoch = new Date().getTime();
-        this.running = true;
+    public static Timer start() {
+        return new Timer();
     }
 
-    public long timeElapsed() {
-        if (this.running == false) return runTime;
-        return ((new Date().getTime()) - this.startEpoch);
+    public void reset() {
+        _start();
     }
 
-    public void printTimeElapsed() {
-        System.out.println("Time Elapsed (Milliseconds): " + timeElapsed());
+    public long startTime(TimeUnit timeUnit) {
+        return timeUnit.convert(start, TIME_UNIT);
     }
 
-    public void stop() {
-        if (this.running == true) {
-            endEpoch = new Date().getTime();
-            this.runTime = endEpoch - this.startEpoch;
-            this.running = false;
-        }
+    public long endTime(TimeUnit timeUnit) {
+        return timeUnit.convert(end, TIME_UNIT);
+    }
+
+    public long elapsedTime(TimeUnit timeUnit) {
+        end = System.nanoTime();
+        return timeUnit.convert(end - start, TIME_UNIT);
+    }
+
+    public long elapsedTime() {
+        return elapsedTime(TIME_UNIT);
+    }
+
+    private Timer() {
+        _start();
+    }
+
+    private void _start() {
+        start = System.nanoTime();
     }
 
 }
