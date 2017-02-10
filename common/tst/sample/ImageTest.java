@@ -1,7 +1,7 @@
 package sample;
 
 import image.SimpleImage;
-import image.SobelOperator;
+import image.operator.SobelOperator;
 
 import java.io.IOException;
 

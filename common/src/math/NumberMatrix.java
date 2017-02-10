@@ -361,7 +361,7 @@ public class NumberMatrix {
                     continue;
                 }
 
-                // get multipication factor
+                // get multiplication factor
                 double multiFactor = matrix[j][i] / curElem;
                 // subtract current row(i) * multiFactor from below row(j) col-wise for col starting row i
                 for (int k = i; k < numOfCols; k++) {

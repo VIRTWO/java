@@ -1,4 +1,7 @@
-package image;
+package image.operator;
+
+import image.ImageUtility;
+import image.SimpleImage;
 
 public class SobelOperator extends SimpleOperator {
 

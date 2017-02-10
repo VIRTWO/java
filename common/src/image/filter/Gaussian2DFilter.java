@@ -1,4 +1,6 @@
-package image;
+package image.filter;
+
+import image.SimpleImage;
 
 public class Gaussian2DFilter extends SimpleFilter {
 
