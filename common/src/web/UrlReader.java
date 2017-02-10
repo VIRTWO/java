@@ -1,4 +1,4 @@
-package general;
+package web;
 
 import java.io.BufferedReader;
 import java.io.IOException;

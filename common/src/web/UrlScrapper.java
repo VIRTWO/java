@@ -1,4 +1,4 @@
-package downloader;
+package web;
 
 import general.ConsoleLogger;
 import general.Logger;
